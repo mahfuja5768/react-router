@@ -5,18 +5,33 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./Root";
 import ErrorPage from "./ErrorPage";
 import Contact from "./Contact";
-import { getContactLoader } from "./loaders/contactLoader";
+import { getContactLoader, getContactsLoader } from "./loaders/contactsLoader";
+import {
+  createContactAction,
+  editContactAction,
+} from "./actions/contactsActions";
+import EditContact from "./EditContact";
+
+//Todo 1 hr 7 min
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: getContactsLoader,
+    action: createContactAction,
     children: [
       {
         path: "/contacts/:contactId",
-        loader: getContactLoader,
         element: <Contact />,
+        loader: getContactLoader,
+      },
+      {
+        path: "/contacts/:contactId/edit",
+        element: <EditContact />,
+        loader: getContactLoader,
+        action: editContactAction,
       },
     ],
   },
